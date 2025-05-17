@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+model Apartment {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  bedrooms    Int
+  cityName    String
+  areaName    String
+  price       Float
+  unitNumber  String
+  projectName String
+  bathrooms   Int      @default(1)
+  yearBuilt   Int?
+  area        Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  images      Image[]
+}
+
+model Image {
+  id          Int       @id @default(autoincrement())
+  imageUrl    String
+  isPrimary   Boolean   @default(false)
+  apartment   Apartment @relation(fields: [apartmentId], references: [id], onDelete: Cascade)
+  apartmentId Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([apartmentId])
+}
