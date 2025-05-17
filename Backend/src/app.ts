@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import apartmentRoutes from './routes/apartmentRoutes';
 import cors from 'cors';
+import path from 'path';
 
 const app = express();
 
@@ -9,9 +10,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.json());
-app.use('/api/apartments', apartmentRoutes);
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+app.use('/api/apartments', apartmentRoutes);
 
 // Health check route
 app.get('/health', (req, res) => {

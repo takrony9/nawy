@@ -1,11 +1,36 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import * as apartmentService from '../services/apartmentService';
 
-export const addApartment : RequestHandler = async (req: Request, res: Response) => {
+export const addApartment: RequestHandler = async (req: Request, res: Response) => {
   try {
-    const apartment = await apartmentService.createApartment(req.body);
+    const apartmentData = {
+      title: req.body.title,
+      projectName: req.body.projectName,
+      unitNumber: req.body.unitNumber,
+      description: req.body.description,
+      price: parseFloat(req.body.price),
+      area: parseFloat(req.body.area),
+      yearBuilt: parseInt(req.body.yearBuilt),
+      cityName: req.body.cityName,
+      areaName: req.body.areaName,
+      bedrooms: parseInt(req.body.bedrooms),
+      bathrooms: parseInt(req.body.bathrooms),
+    };
+
+    // Handle uploaded files
+    const files = req.files as Express.Multer.File[];
+    const images = files ? files.map(file => ({
+      imageUrl: `/uploads/${file.filename}`,
+    })) : [];
+
+    const apartment = await apartmentService.createApartment({
+      ...apartmentData,
+      images
+    });
+
     res.status(201).json(apartment);
   } catch (error) {
+    console.error('Error creating apartment:', error);
     res.status(500).json({ error: 'Failed to create apartment' });
   }
 };

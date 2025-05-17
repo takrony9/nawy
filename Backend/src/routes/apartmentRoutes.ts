@@ -1,15 +1,12 @@
 import express from 'express';
-import {
-  addApartment,
-  getAllApartments,
-  getApartmentById,
-  searchApartments,
-} from '../controllers/apartmentController';
+import * as apartmentController from '../controllers/apartmentController';
+import upload from '../middleware/uploadMiddleware';
 
 const router = express.Router();
 
-router.post('/', addApartment);
-router.get('/', getAllApartments);
-router.get('/search', searchApartments);
-router.get('/:id', getApartmentById);
+router.post('/', upload.array('images'), apartmentController.addApartment);
+router.get('/', apartmentController.getAllApartments);
+router.get('/search', apartmentController.searchApartments);
+router.get('/:id', apartmentController.getApartmentById);
+
 export default router;
