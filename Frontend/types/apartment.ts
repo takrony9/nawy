@@ -18,6 +18,6 @@ export interface Apartment {
 
 export interface ApartmentImage {
   id: number;
-  url: string;
+  imageUrl: string;
   isPrimary: boolean;
 }

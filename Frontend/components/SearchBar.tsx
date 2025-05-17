@@ -10,7 +10,7 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="Search by unit number, project name, or title"
-      className="w-full p-2 border rounded-md shadow-sm"
+      className="w-full p-2 border rounded-md shadow-sm text-black placeholder:text-gray-500"
     />
   );
 }
