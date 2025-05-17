@@ -31,13 +31,11 @@ export const getApartmentById : RequestHandler = async (req: Request, res: Respo
 
 export const searchApartments : RequestHandler = async (req: Request, res: Response) => {
   try {
-    const { title, projectName, unitNumber } = req.query;
-
-    const results = await apartmentService.searchApartments({
-      title: title?.toString(),
-      projectName: projectName?.toString(),
-      unitNumber: unitNumber?.toString(),
-    });
+    const query = req.query.q?.toString();
+    if (!query) {
+      res.status(400).json({ error: 'Search query (q) is required.' });
+    }
+    const results = await apartmentService.searchApartments(query ?? "");
 
     res.json(results);
   } catch (error) {

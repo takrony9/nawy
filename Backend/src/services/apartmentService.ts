@@ -24,21 +24,16 @@ export const getApartmentById = (id: number) => {
   });
 };
 
-export const searchApartments = async (filters: {
-  title?: string;
-  projectName?: string;
-  unitNumber?: string;
-}) => {
-  const { title, projectName, unitNumber } = filters;
-
+export const searchApartments = async (query: string) => {
   return prisma.apartment.findMany({
     where: {
-      AND: [
-        title ? { title: { contains: title, mode: 'insensitive' } } : {},
-        projectName ? { projectName: { contains: projectName, mode: 'insensitive' } } : {},
-        unitNumber ? { unitNumber: { contains: unitNumber, mode: 'insensitive' } } : {},
+      OR: [
+        { title: { contains: query } },
+        { projectName: { contains: query } },
+        { unitNumber: { contains: query } },
       ],
     },
     include: { images: true },
   });
 };
+

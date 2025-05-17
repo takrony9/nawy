@@ -10,6 +10,6 @@ const router = express.Router();
 
 router.post('/', addApartment);
 router.get('/', getAllApartments);
-router.get('/:id', getApartmentById);
 router.get('/search', searchApartments);
+router.get('/:id', getApartmentById);
 export default router;
